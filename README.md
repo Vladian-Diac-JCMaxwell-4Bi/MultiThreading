@@ -16,6 +16,7 @@ Quando capita TAC e poi TOE il punteggio totale viene incrementato di +1.
 # Istruzioni per la modifica
 Il programma è completamente personalizzabile,  basta solo capire esattamente cosa modificare. Ad esempio alcune delle modifiche che si possono fare, sono la modifica del tempo random per la visualizzazione dell'output e l'aggiunta di altri thread.
 Ora vediamo come fare queste due modifiche:
+
 • Modificare il tempo random: 
 1. a) Aprire il codice
 2. b) Cercare la linea che contiene: "int casuale=100+(int)(Math.random()*300);" in questo caso per andare a modificare il tempo basterà specificare i due numeri da prendere in considerazione per l'output. In questo esempio il codice tiene conto di un tempo random che inzia da 100 e finisce a 300. Lui prenderà in considerazione un numero compreso fra questi.
