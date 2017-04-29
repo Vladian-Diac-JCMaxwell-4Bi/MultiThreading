@@ -19,12 +19,12 @@ Ora vediamo come fare queste due modifiche:
 
 • **Modificare il tempo random** : 
 1. Aprire il codice
-2. Cercare la linea che contiene: "int casuale=100+(int)(Math.random()*300);" in questo caso per andare a modificare il tempo basterà specificare i due numeri da prendere in considerazione per l'output. In questo esempio il codice tiene conto di un tempo random che inzia da 100 e finisce a 300. Lui prenderà in considerazione un numero compreso fra questi.
+2. Cercare la linea che contiene: <code>int casuale=100+(int)(Math.random()*300);</code> in questo caso per andare a modificare il tempo basterà specificare i due numeri da prendere in considerazione per l'output. In questo esempio il codice tiene conto di un tempo random che inzia da 100 e finisce a 300. Lui prenderà in considerazione un numero compreso fra questi.
 3. ricompilare il programma e vedere se funziona.
 
 • **Aggiungere un thread**:
 1.  Aprire il codice
 2.  Andare nel main 
-3.  Dichiarare il thread usando la seguente sintassi: Thread nuovoThread = new Thread (new TicTacToe("output da visualizzare")); , al posto di nuovoThread metteremo il nome che vogliamo assegnarli e invece al posto di  ("output da visualizzare") metteremo l'output che vogliamo vedere
+3.  Dichiarare il thread usando la seguente sintassi: <code>Thread nuovoThread = new Thread (new TicTacToe("output da visualizzare")); </code>  al posto di nuovoThread metteremo il nome che vogliamo assegnarli e invece al posto di  ("output da visualizzare") metteremo l'output che vogliamo vedere
 
 
