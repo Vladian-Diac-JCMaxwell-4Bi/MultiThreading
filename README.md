@@ -1,7 +1,10 @@
 # MultiThreading  TicTacToe
 Il programma è basato sull'uso dei threads.
+
 Ci sono 3 threads che partono in ordine prima TIC poi TAC e in fine TOE.
+
 Nel programma possiamo vedere come l'output è casuale infatti TIC, TAC e TOE sono generati in modo puramente casuale, con tempi casuali.
+
 Quando capita TAC e poi TOE il punteggio totale viene incrementato di +1. 
 
 # Istruzioni programma
