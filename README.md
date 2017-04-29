@@ -6,7 +6,7 @@ Quando capita TAC e poi TOE il punteggio totale viene incrementato di +1.
 
 # Istruzioni programma
 1. Andare a visualizzare il codice nel file MultiThread.java.
-2. Scaricare il file.
+2. Scaricare il file "MultiThrading.java" che si trova all'interno di questo progetto.
 3. Aprirlo con Netbeans o qualsiasi altro editor per JAVA.
 4. Apportare le opportune modifiche per far funzionare il codice ( come ad esempio modificare il nome del package o del file).
 5. Una volta apportate le modifiche si può tranquillamete eseguire il programma ( basta schiacciare sulla freccia verde in alto).
@@ -27,4 +27,12 @@ Ora vediamo come fare queste due modifiche:
 2.  Andare nel main 
 3.  Dichiarare il thread usando la seguente sintassi: <code>Thread nuovoThread = new Thread (new TicTacToe("output da visualizzare")); </code>  al posto di nuovoThread metteremo il nome che vogliamo assegnarli e invece al posto di  ("output da visualizzare") metteremo l'output che vogliamo vedere
 
+# Autore
 
+**Diac Nicu Vladian**
+
+# Ringraziamenti
+
+Al _**prof**_ per averci permesso di capire meglio il meccanisco di un Thread
+
+Alla _**classe**_ per la **collaborazione** a risolvere problemi comuni.
