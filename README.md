@@ -29,10 +29,10 @@ Ora vediamo come fare queste due modifiche:
 
 # Autore
 
-  ***Diac Nicu Vladian**
+  **Diac Nicu Vladian**
 
 # Ringraziamenti
 
 Al _**prof**_ per averci permesso di capire meglio il meccanisco di un Thread
 
-*Alla _**classe**_ per la **collaborazione** a risolvere problemi comuni.
+Alla _**classe**_ per la **collaborazione** a risolvere problemi comuni.
