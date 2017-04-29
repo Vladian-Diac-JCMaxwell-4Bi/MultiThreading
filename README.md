@@ -1,15 +1,17 @@
 # MultiThreading  TicTacToe
 Il programma è basato sull'uso dei threads.
 
-Ci sono 3 threads che partono in ordine prima TIC poi TAC e in fine TOE.
+Ci sono 3 threads che partono in ordine prima TIC poi TAC e in fine TOE, ciascuno di essi fornisce un output.
 
 Nel programma possiamo vedere come l'output è casuale infatti TIC, TAC e TOE sono generati in modo puramente casuale, con tempi casuali.
 
 Quando capita TAC e poi TOE il punteggio totale viene incrementato di +1. 
 
+Alla chiusura di dutti i Thread, si visualizzerà la durata totale dei Thread e il punteggio finale
+
 # Istruzioni programma
 1. Andare a visualizzare il codice nel file MultiThread.java.
-2. Scaricare il file "MultiThrading.java" che si trova all'interno di questo progetto.
+2. Scaricare il file *"MultiThrading.java"* che si trova all'interno di questo progetto.
 3. Aprirlo con Netbeans o qualsiasi altro editor per JAVA.
 4. Apportare le opportune modifiche per far funzionare il codice ( come ad esempio modificare il nome del package o del file).
 5. Una volta apportate le modifiche si può tranquillamete eseguire il programma ( basta schiacciare sulla freccia verde in alto).
