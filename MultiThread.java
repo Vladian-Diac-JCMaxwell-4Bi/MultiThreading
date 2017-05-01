@@ -8,8 +8,8 @@ import static multithread.TicTacToe.contatore;  // importo pacchetto per la visu
 
 public class MultiThread { // classe MultiThread dichiarata
 
-    public static void main(String[] args) {  // classe principale d esecuzione Main
-        System.out.println("Main Thread iniziata...");  // visualizzo output, che il nostro pogramma è inizziato 
+    public static void main(String[] args) {  // classe principale di esecuzione Main
+        System.out.println("Main Thread iniziata...");  // visualizzo output, che il nostro pogramma è iniziato 
         long start = System.currentTimeMillis(); // assegno a start il tempo iniziale in cui è stato eseguito il programma
         
         Thread tic = new Thread (new TicTacToe("TIC")); // creo un nuovo Thread è lo chiamo Tic con output TIC
@@ -21,7 +21,7 @@ public class MultiThread { // classe MultiThread dichiarata
         Thread toe = new Thread (new TicTacToe("TOE")); // creo un nuovo Thread è lo chiamo TOE con output TOE
         toe.start(); // avvio il thread TOE
            long end = System.currentTimeMillis();  // assegno a end il tempo finale in cui è stato eseguito il programma
-        System.out.println("Main Thread completata! tempo di esecuzione: " + (end - start) + "ms"); // visualizzo poi alla fine il tempo totale che i thread hanno impiegato a concludere
+        System.out.println("Main Thread completata! tempo di esecuzione: " + (end - start) + "ms"); // visualizzo poi alla fine il tempo totale che i thread hanno impiegato a concludere, dopo la chiusura di tutti i Thread
         try{ // provo 
             tic.join();  // verifico quando tic ha concluso il Thread
         }catch(InterruptedException e) // eccezione
@@ -46,7 +46,7 @@ class TicTacToe  implements Runnable { // implemento la classe
     
     private String t;  // dichiarazione variabili
     private String msg;
-    private static boolean taC = false;
+    private static boolean taC = false; // dichiarazione variabili di tipo static, che sono accessibili da tutti
     public static int contatore = 0;
 
     public TicTacToe (String s) { // costruttore di TicTacToe
@@ -56,10 +56,10 @@ class TicTacToe  implements Runnable { // implemento la classe
     @Override // Annotazione per il compilatore se facessimo un overloading invece di un override il copilatore ci segnalerebbe l'errore
 
     
-    public void run() { // classe
-     for (int i = 10; i > 0; i--)  // ciclo for
+    public void run() { // classe run di tipo void e pubblica
+     for (int i = 10; i > 0; i--)  // ciclo for con i che parte da zero, finchè i è maggiore di zero , i diventa -1
         {           
-            if("TAC".equals(t)) // se tac è uguale all'output T
+            if("TAC".equals(t)) // se tac è uguale all'output T del Thread
                 taC = true; // allora taC è uguale a vero
                 
             msg = "<" + t + "> ";   // assegno a msg il seguente testo
@@ -71,7 +71,7 @@ class TicTacToe  implements Runnable { // implemento la classe
                 contatore++; // allora increamento il punteggio di +1
             else // altrimenti
                 taC = false;  // tac diventa falso0
-            msg += t + ": " + i;  // assegno a msg il seguente testo
+            msg += t + ": " + i;  // assegno a msg il seguente testo  "messaggio + valore contatore i"
             
             System.out.println(msg);  // visualizzo mesaggio di ouput
     }
