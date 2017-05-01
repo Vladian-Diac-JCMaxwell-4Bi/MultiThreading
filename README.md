@@ -40,4 +40,5 @@ Ora vediamo come fare queste due modifiche:
 
 Al _**prof**_ per averci permesso di capire meglio il meccanisco di un Thread
 
+
 Alla _**classe**_ per la **collaborazione** a risolvere problemi comuni.
