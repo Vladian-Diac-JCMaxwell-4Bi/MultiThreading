@@ -1,87 +1,81 @@
-/*
- * Con questo programma voglio illustrare i seguenti concetti:
- * 1. MAIN e' un thread come gli altri e quindi puo' terminare prima che gli altri
- * 2. THREADs vengono eseguiti allo stesso tempo
- * 3. THREADs possono essere interrotti e hanno la possibilita' di interrompersi in modo pulito
- * 4. THREADs possono essere definiti mediante una CLASSE che implementa un INTERFACCIA Runnable
- * 5. THREADs possono essere avviati in modo indipendente da quando sono stati definiti
- * 6. posso passare parametri al THREADs tramite il costruttore della classe Runnable
- */
+
+
 package multithread;
 
-import java.util.concurrent.TimeUnit;
-/**
- *
- * @author Matteo Palitto
- */
-public class MultiThread {
+import java.util.concurrent.TimeUnit; // importo pacchetto 
+import static multithread.TicTacToe.contatore;  // importo pacchetto per la visuliazzazione del punteggio 
+ 
 
-    /**
-     * @param args the command line arguments
-     */
-    // "main" e' il THREAD principale da cui vengono creati e avviati tutti gli altri THREADs
-    // i vari THREADs poi evolvono indipendentemente dal "main" che puo' eventualmente terminare prima degli altri
-    public static void main(String[] args) {
-        System.out.println("Main Thread iniziata...");
-        long start = System.currentTimeMillis();
-        
-        // Posso creare un THREAD e avviarlo immediatamente
-        Thread tic = new Thread (new TicTac("TIC"));
-        tic.start();
-        
-        // Posso creare un 2ndo THREAD e farlo iniziare qualche tempo dopo...
-        Thread tac = new Thread(new TicTac("TAC"));
-        
-        try {
-            TimeUnit.MILLISECONDS.sleep(1111);
-            tac.start();  // avvio del secondo THREAD
-        } catch (InterruptedException e) {}
-        
-        try {
-            TimeUnit.MILLISECONDS.sleep(1234);
-        } catch (InterruptedException e) {}
-        tac.interrupt(); // stop 2nd THREAD
+public class MultiThread { // classe MultiThread dichiarata
 
+    public static void main(String[] args) {  // classe principale di esecuzione Main
+        System.out.println("Main Thread iniziata...");  // visualizzo output, che il nostro pogramma è iniziato 
+        long start = System.currentTimeMillis(); // assegno a start il tempo iniziale in cui è stato eseguito il programma
         
-        long end = System.currentTimeMillis();
-        System.out.println("Main Thread completata! tempo di esecuzione: " + (end - start) + "ms");
+        Thread tic = new Thread (new TicTacToe("TIC")); // creo un nuovo Thread è lo chiamo Tic con output TIC
+        tic.start(); // avvio il thread TIC
+        
+        Thread tac = new Thread(new TicTacToe("TAC")); // creo un nuovo Thread è lo chiamo Toc con output TOC
+        tac.start(); // avvio il thread TAC
+        
+        Thread toe = new Thread (new TicTacToe("TOE")); // creo un nuovo Thread è lo chiamo TOE con output TOE
+        toe.start(); // avvio il thread TOE
+           long end = System.currentTimeMillis();  // assegno a end il tempo finale in cui è stato eseguito il programma
+        System.out.println("Main Thread completata! tempo di esecuzione: " + (end - start) + "ms"); // visualizzo poi alla fine il tempo totale che i thread hanno impiegato a concludere, dopo la chiusura di tutti i Thread
+        try{ // provo 
+            tic.join();  // verifico quando tic ha concluso il Thread
+        }catch(InterruptedException e) // eccezione
+        {System.out.println(e);} // evventuale messaggio di errore
+         try{ // provo 
+            tac.join();  // verifico quando tac ha concluso il Thread
+        }catch(InterruptedException e) // eccezione
+        {System.out.println(e);} // evventuale messaggio di errore
+         try{ // provo 
+            toe.join(); // verifico quando toe ha concluso il Thread
+        }catch(InterruptedException e) // eccezione
+        {System.out.println(e);} // evventuale messaggio di errore
+         
+         System.out.println("Punteggio:  -- >> "+ contatore); // visualizzo il punteggio finale 
+   
     }
     
 }
 
-// Ci sono vari (troppi) metodi per creare un THREAD in Java questo e' il mio preferito per i vantaggi che offre
-// +1 si puo estendere da un altra classe
-// +1 si possono passare parametri (usando il Costruttore)
-// +1 si puo' controllare quando un THREAD inizia indipendentemente da quando e' stato creato
-class TicTac implements Runnable {
-    
-    // non essesndo "static" c'e' una copia delle seguenti variabili per ogni THREAD 
-    private String t;
-    private String msg;
+class TicTacToe  implements Runnable { // implemento la classe 
 
-    // Costruttore, possiamo usare il costruttore per passare dei parametri al THREAD
-    public TicTac (String s) {
+    
+    private String t;  // dichiarazione variabili
+    private String msg;
+    private static boolean taC = false; // dichiarazione variabili di tipo static, che sono accessibili da tutti
+    public static int contatore = 0;
+
+    public TicTacToe (String s) { // costruttore di TicTacToe
         this.t = s;
     }
     
-    @Override // Annotazione per il compilatore
-    // se facessimo un overloading invece di un override il copilatore ci segnalerebbe l'errore
-    // per approfondimenti http://lancill.blogspot.it/2012/11/annotations-override.html
-    public void run() {
-        for (int i = 10; i > 0; i--) {
-            msg = "<" + t + "> ";
-            //System.out.print(msg);
+    @Override // Annotazione per il compilatore se facessimo un overloading invece di un override il copilatore ci segnalerebbe l'errore
+
+    
+    public void run() { // classe run di tipo void e pubblica
+     for (int i = 10; i > 0; i--)  // ciclo for con i che parte da zero, finchè i è maggiore di zero , i diventa -1
+        {           
+            if("TAC".equals(t)) // se tac è uguale all'output T del Thread
+                taC = true; // allora taC è uguale a vero
+                
+            msg = "<" + t + "> ";   // assegno a msg il seguente testo
+            int casuale=100+(int)(Math.random()*300); //Tempo casuale tra 100 e 300 millisecondi
+             try { // provo
+                TimeUnit.MILLISECONDS.sleep(casuale); // tempo random per la viosualizzazione random
+            } catch (InterruptedException e) {} // eccezione
+            if("TOE".equals(t) && taC == true) // se Toe è uguale a T e taC è uguale a vero 
+                contatore++; // allora increamento il punteggio di +1
+            else // altrimenti
+                taC = false;  // tac diventa falso0
+            msg += t + ": " + i;  // assegno a msg il seguente testo  "messaggio + valore contatore i"
             
-            try {
-                TimeUnit.MILLISECONDS.sleep(400);
-            } catch (InterruptedException e) {
-                System.out.println("THREAD " + t + " e' stata interrotta! bye bye...");
-                return; //me ne vado = termino il THREAD
-            }
-            msg += t + ": " + i;
-            System.out.println(msg);
-         
-        }
+            System.out.println(msg);  // visualizzo mesaggio di ouput
+    }
+            
     }
     
 }
