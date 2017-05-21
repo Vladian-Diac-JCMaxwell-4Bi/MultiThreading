@@ -1,81 +1,86 @@
 
 
 package multithread;
+import java.util.concurrent.TimeUnit;
+import java.util.Random;
 
-import java.util.concurrent.TimeUnit; // importo pacchetto 
-import static multithread.TicTacToe.contatore;  // importo pacchetto per la visuliazzazione del punteggio 
- 
-
-public class MultiThread { // classe MultiThread dichiarata
-
-    public static void main(String[] args) {  // classe principale di esecuzione Main
-        System.out.println("Main Thread iniziata...");  // visualizzo output, che il nostro pogramma è iniziato 
-        long start = System.currentTimeMillis(); // assegno a start il tempo iniziale in cui è stato eseguito il programma
+public class MultiThread {
+    public static void main(String[] args) {
+        System.out.println("Main Thread iniziata..."); // output  che ci avvia che il programma è avviato
+        long start = System.currentTimeMillis(); // ottiene il tempo di avvio
+        Monitor moniT = new Monitor(); //monitor per controllare l'accesso alle risorse condivise
         
-        Thread tic = new Thread (new TicTacToe("TIC")); // creo un nuovo Thread è lo chiamo Tic con output TIC
-        tic.start(); // avvio il thread TIC
+        Thread tic = new Thread (new TicTacToe("TIC", moniT));   // Creazo il primo threads
+        Thread tac = new Thread(new TicTacToe("TAC", moniT)); // Creazo il secondo threads
+        Thread toe = new Thread(new TicTacToe("TOE", moniT)); // Creazo il terzo threads
         
-        Thread tac = new Thread(new TicTacToe("TAC")); // creo un nuovo Thread è lo chiamo Toc con output TOC
-        tac.start(); // avvio il thread TAC
+        toe.start(); // avvio 1 thread 
+        tac.start(); // avvio 2 thread 
+        tic.start(); // avvio 3 thread 
         
-        Thread toe = new Thread (new TicTacToe("TOE")); // creo un nuovo Thread è lo chiamo TOE con output TOE
-        toe.start(); // avvio il thread TOE
-           long end = System.currentTimeMillis();  // assegno a end il tempo finale in cui è stato eseguito il programma
-        System.out.println("Main Thread completata! tempo di esecuzione: " + (end - start) + "ms"); // visualizzo poi alla fine il tempo totale che i thread hanno impiegato a concludere, dopo la chiusura di tutti i Thread
-        try{ // provo 
-            tic.join();  // verifico quando tic ha concluso il Thread
-        }catch(InterruptedException e) // eccezione
-        {System.out.println(e);} // evventuale messaggio di errore
-         try{ // provo 
-            tac.join();  // verifico quando tac ha concluso il Thread
-        }catch(InterruptedException e) // eccezione
-        {System.out.println(e);} // evventuale messaggio di errore
-         try{ // provo 
-            toe.join(); // verifico quando toe ha concluso il Thread
-        }catch(InterruptedException e) // eccezione
-        {System.out.println(e);} // evventuale messaggio di errore
-         
-         System.out.println("Punteggio:  -- >> "+ contatore); // visualizzo il punteggio finale 
-   
-    }
     
+        try{
+            tic.join(); // Attendo che l'esecuzione di ogni thread finisca. Per poi proseguire
+            tac.join();
+            toe.join();
+        }catch (InterruptedException e) {}
+        
+        
+        long end = System.currentTimeMillis(); // ottengo il tempo al momento della conclusione del programma
+        System.out.println("Main Thread completata! tempo di esecuzione: " + (end - start) + "ms"); // esegue operazioni per sapere quanto ci ha messo ad eseguire tutto il codice
+        System.out.println("Punteggio: " + moniT.getPunteggio()); // Output del punteggio
+    }
 }
 
-class TicTacToe  implements Runnable { // implemento la classe 
-
-    
-    private String t;  // dichiarazione variabili
-    private String msg;
-    private static boolean taC = false; // dichiarazione variabili di tipo static, che sono accessibili da tutti
-    public static int contatore = 0;
-
-    public TicTacToe (String s) { // costruttore di TicTacToe
+class TicTacToe implements Runnable {
+    private String t;
+    public String msg;
+    private Monitor m;
+    // Costruttore, possiamo usare il costruttore per passare dei parametri al THREAD
+    public TicTacToe (String s, Monitor m) {
+        this.m = m;
         this.t = s;
     }
     
-    @Override // Annotazione per il compilatore se facessimo un overloading invece di un override il copilatore ci segnalerebbe l'errore
+    @Override // Annotazione per il compilatore
+    // se facessimo un overloading invece di un override il copilatore ci segnalerebbe l'errore
+    public void run() {
+        for (int i = 10; i > 0; i--) {
+            msg = "<" + t + "> " + t + ": " + i;
+            m.Scrivi(t, msg);
+        }
+    }
+}
 
+//classe monitor per la gestione di risorse condivise tra threads
+class Monitor{
+    private String ultimoThread = ""; //variabile contenente il thread eseguito precedentemente
+    private int punteggio; 
+    private final Random rand = new Random(); 
+    private int randoM;
     
-    public void run() { // classe run di tipo void e pubblica
-     for (int i = 10; i > 0; i--)  // ciclo for con i che parte da zero, finchè i è maggiore di zero , i diventa -1
-        {           
-            if("TAC".equals(t)) // se tac è uguale all'output T del Thread
-                taC = true; // allora taC è uguale a vero
-                
-            msg = "<" + t + "> ";   // assegno a msg il seguente testo
-            int casuale=100+(int)(Math.random()*300); //Tempo casuale tra 100 e 300 millisecondi
-             try { // provo
-                TimeUnit.MILLISECONDS.sleep(casuale); // tempo random per la viosualizzazione random
-            } catch (InterruptedException e) {} // eccezione
-            if("TOE".equals(t) && taC == true) // se Toe è uguale a T e taC è uguale a vero 
-                contatore++; // allora increamento il punteggio di +1
-            else // altrimenti
-                taC = false;  // tac diventa falso0
-            msg += t + ": " + i;  // assegno a msg il seguente testo  "messaggio + valore contatore i"
+    //Uso Synchronized in tal modo da avere un accesso ordinato da parte dei Thread
+    public synchronized void Scrivi(String t, String msg){
+            try {
+                randoM = rand.nextInt(300) + 100;
+                TimeUnit.MILLISECONDS.sleep(randoM);
+            } catch (InterruptedException e) {
+                System.out.println(e);
+                return; 
+            }
+
+            if(t.equals("TOE") && ultimoThread.equals("TAC")) //condizione 
+            {
+                punteggio ++;
+                msg += "\t" + "<--- Eccomi: " + punteggio; //aggiungo un segna punti, per verificare più velocemente il codice
+            }
             
-            System.out.println(msg);  // visualizzo mesaggio di ouput
-    }
-            
+            ultimoThread = t; // assegno all'ultimoThread il valore ottenuto dal Thread
+            System.out.println(msg);  // visualizzo messaggio in output
     }
     
+    public int getPunteggio() // restituisce il punteggio 
+    {
+        return punteggio;
+    }
 }
