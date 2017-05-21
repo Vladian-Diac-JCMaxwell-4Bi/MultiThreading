@@ -6,19 +6,25 @@ import java.util.Random;
 
 public class MultiThread {
     public static void main(String[] args) {
+        
         System.out.println("Main Thread iniziata..."); // output  che ci avvia che il programma è avviato
+        
         long start = System.currentTimeMillis(); // ottiene il tempo di avvio
+        
         Monitor moniT = new Monitor(); //monitor per controllare l'accesso alle risorse condivise
         
         Thread tic = new Thread (new TicTacToe("TIC", moniT));   // Creazo il primo threads
+        
         Thread tac = new Thread(new TicTacToe("TAC", moniT)); // Creazo il secondo threads
+        
         Thread toe = new Thread(new TicTacToe("TOE", moniT)); // Creazo il terzo threads
         
         toe.start(); // avvio 1 thread 
-        tac.start(); // avvio 2 thread 
-        tic.start(); // avvio 3 thread 
         
-    
+        tac.start(); // avvio 2 thread 
+        
+        tic.start(); // avvio 3 thread 
+            
         try{
             tic.join(); // Attendo che l'esecuzione di ogni thread finisca. Per poi proseguire
             tac.join();
@@ -40,8 +46,7 @@ class TicTacToe implements Runnable {
     public TicTacToe (String s, Monitor m) {
         this.m = m;
         this.t = s;
-    }
-    
+    }    
     @Override // Annotazione per il compilatore
     // se facessimo un overloading invece di un override il copilatore ci segnalerebbe l'errore
     public void run() {
@@ -68,17 +73,14 @@ class Monitor{
                 System.out.println(e);
                 return; 
             }
-
             if(t.equals("TOE") && ultimoThread.equals("TAC")) //condizione 
             {
                 punteggio ++;
                 msg += "\t" + "<--- Eccomi: " + punteggio; //aggiungo un segna punti, per verificare più velocemente il codice
-            }
-            
+            }          
             ultimoThread = t; // assegno all'ultimoThread il valore ottenuto dal Thread
             System.out.println(msg);  // visualizzo messaggio in output
-    }
-    
+    }   
     public int getPunteggio() // restituisce il punteggio 
     {
         return punteggio;
